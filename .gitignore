@@ -1,0 +1,49 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/**/node_modules
+
+# build outputs
+/.next
+/**/.next
+/dist
+/**/dist
+/build
+/**/build
+/.svelte-kit
+/**/.svelte-kit
+
+# env files
+/.env
+/.env.*
+/.env.local
+/.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# caches
+.eslintcache
+*.tsbuildinfo
+/.pnpm-store
+
+# tests & coverage
+/coverage
+/**/coverage
+/playwright-report
+/**/playwright-report
+/test-results
+/**/test-results
+
+# editors & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# hosting/platform
+.vercel
+.netlify
