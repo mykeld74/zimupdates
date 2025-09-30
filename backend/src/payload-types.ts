@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     updates: Update;
+    kids: Kid;
+    sponsors: Sponsor;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +81,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     updates: UpdatesSelect<false> | UpdatesSelect<true>;
+    kids: KidsSelect<false> | KidsSelect<true>;
+    sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -121,7 +125,17 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  firstName: string;
+  lastName: string;
+  /**
+   * Auto-generated from first and last name
+   */
   name?: string | null;
+  level: 'admin' | 'editor' | 'sponsor';
+  /**
+   * Kids sponsored by this user (derived)
+   */
+  sponsoredKids?: (number | Kid)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -139,6 +153,19 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kids".
+ */
+export interface Kid {
+  id: number;
+  name: string;
+  sponsor?: (number | null) | User;
+  birthday?: string | null;
+  featuredImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -186,6 +213,24 @@ export interface Update {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors".
+ */
+export interface Sponsor {
+  id: number;
+  firstName: string;
+  lastName: string;
+  /**
+   * Auto-generated from first and last name
+   */
+  name?: string | null;
+  email: string;
+  phoneNumber?: string | null;
+  sponsoredKid?: (number | null) | Kid;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -202,6 +247,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'updates';
         value: number | Update;
+      } | null)
+    | ({
+        relationTo: 'kids';
+        value: number | Kid;
+      } | null)
+    | ({
+        relationTo: 'sponsors';
+        value: number | Sponsor;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -250,7 +303,11 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
   name?: T;
+  level?: T;
+  sponsoredKids?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -293,6 +350,32 @@ export interface MediaSelect<T extends boolean = true> {
 export interface UpdatesSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kids_select".
+ */
+export interface KidsSelect<T extends boolean = true> {
+  name?: T;
+  sponsor?: T;
+  birthday?: T;
+  featuredImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors_select".
+ */
+export interface SponsorsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  name?: T;
+  email?: T;
+  phoneNumber?: T;
+  sponsoredKid?: T;
   updatedAt?: T;
   createdAt?: T;
 }

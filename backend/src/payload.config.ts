@@ -9,6 +9,8 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Kids } from './collections/Kids'
+import { Sponsors } from './collections/Sponsors'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,6 +43,8 @@ export default buildConfig({
         },
       ],
     },
+    Kids,
+    Sponsors,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
