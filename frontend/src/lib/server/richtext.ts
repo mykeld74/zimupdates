@@ -75,11 +75,11 @@ async function trySerialize(content: UnknownJson): Promise<string | null> {
 export async function serializeAndSanitize(content: UnknownJson): Promise<string> {
 	if (!content) return '';
 	if (typeof content === 'string') {
-		return content;
+		return DOMPurify.sanitize(content, SANITIZE_CONFIG) as string;
 	}
 	const html = (await trySerialize(content)) ?? naiveLexicalToHtml(content);
 	if (typeof html === 'string') {
-		return html;
+		return DOMPurify.sanitize(html, SANITIZE_CONFIG) as string;
 	}
 	return '';
 }
