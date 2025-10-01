@@ -9,6 +9,10 @@
   NODE_VERSION = "20"
   PUBLIC_BACKEND_URL = "https://zim-admin.westwoodscc.org"
 
+# Disable all plugins to prevent conflicts
+[build.processing]
+  skip_processing = true
+
 
 
 
