@@ -2,16 +2,12 @@
 
 [build]
   base = "frontend"
-  command = "pnpm install --no-frozen-lockfile && pnpm build"
+  command = "pnpm install --no-frozen-lockfile && pnpm build && mkdir -p .next && echo '{}' > .next/BUILD_ID"
   publish = "build"
 
 [build.environment]
   NODE_VERSION = "20"
   PUBLIC_BACKEND_URL = "https://zim-admin.westwoodscc.org"
-
-# Disable all plugins to prevent conflicts
-[build.processing]
-  skip_processing = true
 
 
 
