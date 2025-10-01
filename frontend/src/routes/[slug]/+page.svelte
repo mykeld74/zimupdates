@@ -30,10 +30,4 @@
 	.content {
 		margin-top: 1rem;
 	}
-	pre {
-		background: color-mix(in oklch, var(--backgroundColor), white 60%);
-		padding: 1rem;
-		border-radius: 0.5rem;
-		overflow: auto;
-	}
 </style>

@@ -56,44 +56,64 @@ export const Sponsors: CollectionConfig = {
         // Sync changes to sponsoredKids -> kids.sponsors
         try {
           if (operation === 'update') {
-            const sponsorId = originalDoc?.id as string | undefined
+            const sponsorId = originalDoc?.id as number | undefined
             if (sponsorId) {
               const nextKidsRaw = (data as Record<string, unknown>)?.sponsoredKids as unknown
               const prevKidsRaw = (originalDoc as Record<string, unknown>)?.sponsoredKids as unknown
 
-              const normalizeIds = (value: unknown): string[] => {
+              const normalizeIds = (value: unknown): number[] => {
                 if (!value) return []
                 const arr = Array.isArray(value) ? value : []
                 return arr
                   .map((item) => {
                     if (!item) return undefined
-                    if (typeof item === 'string') return item
+                    if (typeof item === 'number') return item
+                    if (typeof item === 'string') {
+                      const n = Number(item)
+                      return Number.isFinite(n) ? n : undefined
+                    }
                     if (typeof item === 'object' && 'id' in (item as Record<string, unknown>)) {
-                      return String((item as { id?: string }).id)
+                      const idVal = (item as { id?: number | string }).id
+                      if (typeof idVal === 'number') return idVal
+                      if (typeof idVal === 'string') {
+                        const n = Number(idVal)
+                        return Number.isFinite(n) ? n : undefined
+                      }
+                      return undefined
                     }
                     return undefined
                   })
-                  .filter((v): v is string => Boolean(v))
+                  .filter((v): v is number => typeof v === 'number' && Number.isFinite(v))
               }
 
               const nextKidIds = new Set(normalizeIds(nextKidsRaw))
               const prevKidIds = new Set(normalizeIds(prevKidsRaw))
 
-              const toAdd: string[] = [...nextKidIds].filter((id) => !prevKidIds.has(id))
-              const toRemove: string[] = [...prevKidIds].filter((id) => !nextKidIds.has(id))
+              const toAdd: number[] = [...nextKidIds].filter((id) => !prevKidIds.has(id))
+              const toRemove: number[] = [...prevKidIds].filter((id) => !nextKidIds.has(id))
 
-              const updateKidSponsors = async (kidId: string, action: 'add' | 'remove') => {
+              const updateKidSponsors = async (kidId: number, action: 'add' | 'remove') => {
                 const kid = await req.payload.findByID({ collection: 'kids', id: kidId, depth: 0 })
-                const sponsors: string[] = Array.isArray((kid as Record<string, unknown>).sponsors)
-                  ? ((kid as Record<string, unknown>).sponsors as unknown[])
-                      .map((s) =>
-                        typeof s === 'string'
-                          ? s
-                          : s && typeof s === 'object' && 'id' in s
-                            ? String((s as { id?: string }).id)
-                            : undefined,
-                      )
-                      .filter((v): v is string => Boolean(v))
+                const sponsorsField = (kid as unknown as { sponsors?: unknown }).sponsors
+                const sponsors: number[] = Array.isArray(sponsorsField)
+                  ? (sponsorsField as unknown[])
+                      .map((s) => {
+                        if (typeof s === 'number') return s
+                        if (typeof s === 'string') {
+                          const n = Number(s)
+                          return Number.isFinite(n) ? n : undefined
+                        }
+                        if (s && typeof s === 'object' && 'id' in s) {
+                          const v = (s as { id?: number | string }).id
+                          if (typeof v === 'number') return v
+                          if (typeof v === 'string') {
+                            const n = Number(v)
+                            return Number.isFinite(n) ? n : undefined
+                          }
+                        }
+                        return undefined
+                      })
+                      .filter((v): v is number => typeof v === 'number' && Number.isFinite(v))
                   : []
 
                 const set = new Set(sponsors)

@@ -1,7 +1,7 @@
-import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
 export function getBackendBaseUrl(): string {
-	const fromEnv = (PUBLIC_BACKEND_URL || '').trim();
+	const fromEnv = (env?.PUBLIC_BACKEND_URL || '').trim();
 	return fromEnv || 'http://localhost:3000';
 }
 
