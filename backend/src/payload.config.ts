@@ -22,6 +22,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  cors: ['http://localhost:5173', 'http://localhost:4173', 'https://zim-updates.westwoodscc.org'],
+  csrf: ['http://localhost:5173', 'http://localhost:4173', 'https://zim-updates.westwoodscc.org'],
   collections: [
     Users,
     Media,

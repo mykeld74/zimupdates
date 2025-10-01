@@ -1,0 +1,13 @@
+# Netlify monorepo configuration for SvelteKit frontend
+
+[build]
+  base = "frontend"
+  command = "pnpm build"
+  publish = ".svelte-kit/output/client"
+  functions = ".svelte-kit/output/server"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PUBLIC_BACKEND_URL = "https://zim-admin.westwoodscc.org"
+
+
