@@ -1,0 +1,14 @@
+# Netlify monorepo configuration for SvelteKit frontend
+
+[build]
+  base = "frontend"
+  command = "pnpm install --no-frozen-lockfile && pnpm build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PUBLIC_BACKEND_URL = "https://zim-admin.westwoodscc.org"
+
+
+
+
