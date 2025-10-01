@@ -12,9 +12,10 @@ export const Kids: CollectionConfig = {
       required: true,
     },
     {
-      name: 'sponsor',
+      name: 'sponsors',
       type: 'relationship',
-      relationTo: 'users',
+      relationTo: 'sponsors',
+      hasMany: true,
       required: false,
     },
     {

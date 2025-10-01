@@ -1,0 +1,60 @@
+# ZimUpdates 2025 Project Rules
+
+## Framework & Syntax
+
+- Use Svelte 5 runes syntax ($props, $state, $derived, etc.) @https://svelte.dev/docs/svelte/llms.txt
+- Use SvelteKit conventions @https://kit.svelte.dev/docs/llms.txt
+- Use GSAP for animations @https://gsap.com/llms.txt
+- Use TypeScript for type safety
+- Use Payload CMS for the backend @https://payloadcms.com/llms.txt
+- Use Drizzle ORM for the database @https://orm.drizzle.team/llms.txt
+
+## Naming Conventions
+
+- camelCase: variables, functions, classes, custom elements, id
+- PascalCase: components, interfaces, types
+
+## Code Style & Formatting
+
+- Tabs (not spaces), single quotes, no trailing commas, 100 char width
+- Prefer const over let, meaningful variable names
+- Use Prettier + ESLint for consistency
+- For the frontend css place common styles in the /src/app/(frontend)/styles.css file component specific styles in the component file
+- use camelCase for the css classes
+
+## CSS & Styling
+
+- ❌ Never use Tailwind CSS
+- ✅ Use CSS custom properties for theming (--primaryColor, --contrastColor, etc.)
+- ✅ Use OKLCH color space when possible
+- ✅ Prefer CSS Grid over Flexbox for layouts
+- ✅ Use clamp() for responsive typography
+- ✅ Use @keyframes for simple animations, GSAP for complex/scroll-triggered
+- ✅ Implement dark/light theme support with CSS custom properties
+
+## Component Structure
+
+- Keep components small and focused (< 100 lines)
+- Co-locate styles with <style> blocks
+- Use semantic HTML and proper accessibility attributes
+- Follow existing patterns (see Card.svelte, EventCard.svelte)
+
+## File Organization
+
+- Group related files in directories (images/, components/, etc.)
+- Use index.js for barrel exports
+- Use descriptive file names
+
+## Project-Specific Requirements
+
+- Use existing color scheme: --primaryColor (oklch), --contrastColor, --backgroundColor
+- Follow card component patterns (Card.svelte, EventCard.svelte, HomePageCard.svelte)
+- Use existing animation patterns (cardsIn keyframes)
+- Optimize images with Cloudinary
+- Use pnpm, Vite, PostCSS
+
+## Performance & Best Practices
+
+- Implement proper error handling and loading states
+- Use proper meta tags and SEO practices
+- Write clean, readable, maintainable code

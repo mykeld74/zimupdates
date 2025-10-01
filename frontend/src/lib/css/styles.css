@@ -1,0 +1,43 @@
+:root {
+	--primaryColor: oklch(0.5845 0.099 230.1);
+	--contrastColor: oklch(20% 0.03 250);
+	--backgroundColor: oklch(0.3572 0.0444 230.1);
+}
+
+body {
+	font-family: 'Maven Pro', sans-serif;
+}
+
+@keyframes cardsIn {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 1rem;
+	margin: 1rem auto;
+	max-width: 1180px;
+}
+
+.card {
+	display: block;
+	border: 1px solid color-mix(in oklch, var(--backgroundColor), black 12%);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	text-decoration: none;
+	color: #fff;
+	background: var(--backgroundColor);
+	animation: cardsIn 420ms both;
+}
+
+.card:hover {
+	box-shadow: 0 2px 10px color-mix(in oklch, black, transparent 94%);
+}

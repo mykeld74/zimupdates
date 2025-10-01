@@ -86,7 +86,7 @@ export const Users: CollectionConfig = {
         try {
           const kids = await req.payload.find({
             collection: 'kids',
-            where: { sponsor: { equals: doc.id } },
+            where: { sponsors: { contains: doc.id } },
             depth: 0,
             limit: 1000,
           })

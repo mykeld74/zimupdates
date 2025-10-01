@@ -161,9 +161,27 @@ export interface User {
 export interface Kid {
   id: number;
   name: string;
-  sponsor?: (number | null) | User;
+  sponsors?: (number | Sponsor)[] | null;
   birthday?: string | null;
   featuredImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors".
+ */
+export interface Sponsor {
+  id: number;
+  firstName: string;
+  lastName: string;
+  /**
+   * Auto-generated from first and last name
+   */
+  name?: string | null;
+  email: string;
+  phoneNumber?: string | null;
+  sponsoredKids?: (number | Kid)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -193,6 +211,10 @@ export interface Media {
 export interface Update {
   id: number;
   title: string;
+  /**
+   * Auto-generated from title if left blank
+   */
+  slug?: string | null;
   content?: {
     root: {
       type: string;
@@ -208,24 +230,6 @@ export interface Update {
     };
     [k: string]: unknown;
   } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sponsors".
- */
-export interface Sponsor {
-  id: number;
-  firstName: string;
-  lastName: string;
-  /**
-   * Auto-generated from first and last name
-   */
-  name?: string | null;
-  email: string;
-  phoneNumber?: string | null;
-  sponsoredKid?: (number | null) | Kid;
   updatedAt: string;
   createdAt: string;
 }
@@ -349,6 +353,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface UpdatesSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -359,7 +364,7 @@ export interface UpdatesSelect<T extends boolean = true> {
  */
 export interface KidsSelect<T extends boolean = true> {
   name?: T;
-  sponsor?: T;
+  sponsors?: T;
   birthday?: T;
   featuredImage?: T;
   updatedAt?: T;
@@ -375,7 +380,7 @@ export interface SponsorsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phoneNumber?: T;
-  sponsoredKid?: T;
+  sponsoredKids?: T;
   updatedAt?: T;
   createdAt?: T;
 }
