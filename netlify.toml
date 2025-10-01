@@ -2,12 +2,24 @@
 
 [build]
   base = "frontend"
-  command = "pnpm install --no-frozen-lockfile && pnpm build && mkdir -p .next && echo '{}' > .next/BUILD_ID"
+  command = "pnpm install --no-frozen-lockfile && pnpm build"
   publish = "build"
 
 [build.environment]
   NODE_VERSION = "20"
   PUBLIC_BACKEND_URL = "https://zim-admin.westwoodscc.org"
+
+# Override the Next.js plugin redirects with proper SvelteKit redirects
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Disable the Next.js plugin
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+  [plugins.inputs]
+    disable = true
 
 
 
