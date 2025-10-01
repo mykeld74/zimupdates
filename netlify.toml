@@ -1,10 +1,9 @@
-# Netlify monorepo configuration for SvelteKit frontend
+# Netlify configuration for SvelteKit frontend
 
 [build]
   base = "frontend"
   command = "pnpm install --no-frozen-lockfile && pnpm build"
   publish = "build"
-  build.rollupOptions.external = ["sqlite"]
 
 [build.environment]
   NODE_VERSION = "20"
