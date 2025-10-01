@@ -8,5 +8,8 @@ export default defineConfig({
 		rollupOptions: {
 			external: ['node:sqlite']
 		}
+	},
+	ssr: {
+		external: ['node:sqlite']
 	}
 });
