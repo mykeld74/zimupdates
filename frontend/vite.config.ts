@@ -4,7 +4,9 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [sveltekit(), devtoolsJson()],
-	ssr: {
-		external: ['node:sqlite']
+	build: {
+		rollupOptions: {
+			external: ['node:sqlite']
+		}
 	}
 });

@@ -94,26 +94,16 @@ export const Sponsors: CollectionConfig = {
 
               const updateKidSponsors = async (kidId: number, action: 'add' | 'remove') => {
                 const kid = await req.payload.findByID({ collection: 'kids', id: kidId, depth: 0 })
-                const sponsorsField = (kid as unknown as { sponsors?: unknown }).sponsors
-                const sponsors: number[] = Array.isArray(sponsorsField)
-                  ? (sponsorsField as unknown[])
-                      .map((s) => {
-                        if (typeof s === 'number') return s
-                        if (typeof s === 'string') {
-                          const n = Number(s)
-                          return Number.isFinite(n) ? n : undefined
-                        }
-                        if (s && typeof s === 'object' && 'id' in s) {
-                          const v = (s as { id?: number | string }).id
-                          if (typeof v === 'number') return v
-                          if (typeof v === 'string') {
-                            const n = Number(v)
-                            return Number.isFinite(n) ? n : undefined
-                          }
-                        }
-                        return undefined
-                      })
-                      .filter((v): v is number => typeof v === 'number' && Number.isFinite(v))
+                const sponsors: string[] = Array.isArray((kid as any).sponsors)
+                  ? ((kid as any).sponsors as unknown[])
+                      .map((s) =>
+                        typeof s === 'string'
+                          ? s
+                          : s && typeof s === 'object' && 'id' in s
+                            ? String((s as { id?: string }).id)
+                            : undefined,
+                      )
+                      .filter((v): v is string => Boolean(v))
                   : []
 
                 const set = new Set(sponsors)
@@ -123,7 +113,7 @@ export const Sponsors: CollectionConfig = {
                 await req.payload.update({
                   collection: 'kids',
                   id: kidId,
-                  data: { sponsors: [...set] },
+                  data: { sponsors: [...set].map(id => parseInt(id, 10)) },
                   overrideAccess: true,
                   depth: 0,
                 })
