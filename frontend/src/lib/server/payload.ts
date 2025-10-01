@@ -1,6 +1,7 @@
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
 export function getBackendBaseUrl(): string {
+	// Handle case where PUBLIC_BACKEND_URL might not be defined
 	const fromEnv = (PUBLIC_BACKEND_URL || '').trim();
 	return fromEnv || 'http://localhost:3000';
 }

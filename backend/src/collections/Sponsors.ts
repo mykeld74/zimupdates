@@ -84,8 +84,8 @@ export const Sponsors: CollectionConfig = {
 
               const updateKidSponsors = async (kidId: string, action: 'add' | 'remove') => {
                 const kid = await req.payload.findByID({ collection: 'kids', id: kidId, depth: 0 })
-                const sponsors: string[] = Array.isArray((kid as Record<string, unknown>).sponsors)
-                  ? ((kid as Record<string, unknown>).sponsors as unknown[])
+                const sponsors: string[] = Array.isArray((kid as any).sponsors)
+                  ? ((kid as any).sponsors as unknown[])
                       .map((s) =>
                         typeof s === 'string'
                           ? s
@@ -103,7 +103,7 @@ export const Sponsors: CollectionConfig = {
                 await req.payload.update({
                   collection: 'kids',
                   id: kidId,
-                  data: { sponsors: [...set] },
+                  data: { sponsors: [...set].map(id => parseInt(id, 10)) },
                   overrideAccess: true,
                   depth: 0,
                 })
