@@ -2,12 +2,16 @@
 
 [build]
   base = "frontend"
-  command = "pnpm build"
+  command = "pnpm install --no-frozen-lockfile && pnpm build"
   publish = ".svelte-kit/output/client"
   functions = ".svelte-kit/output/server"
 
 [build.environment]
   NODE_VERSION = "20"
   PUBLIC_BACKEND_URL = "https://zim-admin.westwoodscc.org"
+
+
+[functions]
+  node_bundler = "nft"
 
 
